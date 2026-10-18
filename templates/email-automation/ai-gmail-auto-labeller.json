@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REPLACE_WITH_YOUR_INSTANCE_ID",
+    "infoBay": {
+      "name": "AI Gmail Auto-Labeller",
+      "description": "Automatically labels incoming Gmail messages into categories (Support, Sales, Inquiry, Partnership) using OpenAI GPT-4o.",
+      "category": "email-automation",
+      "difficulty": "beginner",
+      "trigger": "Gmail Trigger",
+      "requiredCredentials": ["Gmail OAuth2", "OpenAI API"],
+      "requiredNodes": [
+        "n8n-nodes-base.gmailTrigger",
+        "n8n-nodes-base.openAi",
+        "n8n-nodes-base.gmail"
+      ],
+      "author": "your-github-username",
+      "authorUrl": "https://github.com/your-github-username",
+      "version": "1.0.0",
+      "testedOn": "n8n 1.70+",
+      "tags": ["email", "ai", "gmail", "openai", "labelling", "ops"]
+    }
+  },
+  "name": "AI Gmail Auto-Labeller",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "id": "node-gmail-trigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "message",
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an email classifier. Given an email subject and body, respond with exactly ONE label from this list:\n- Support\n- Sales\n- Inquiry\n- Partnership\n- Spam\n- Other\n\nRespond with only the label name, nothing else."
+            },
+            {
+              "role": "user",
+              "content": "Subject: {{ $json.subject }}\n\nBody:\n{{ $json.snippet }}"
+            }
+          ]
+        }
+      },
+      "id": "node-openai",
+      "name": "OpenAI - Classify Email",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "labelIds": {
+          "__rl": true,
+          "value": "={{ $json.message.content }}",
+          "mode": "name"
+        }
+      },
+      "id": "node-gmail-label",
+      "name": "Gmail - Apply Label",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Classify Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Classify Email": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Apply Label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": []
+}

@@ -1,2 +1,21 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Normalise line endings to LF in the repository
+* text=auto eol=lf
+
+# Force JSON to LF
+*.json text eol=lf
+
+# Force Markdown to LF
+*.md text eol=lf
+
+# Force YAML to LF
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Force JS/TS to LF
+*.js text eol=lf
+
+# Declare binary assets
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary

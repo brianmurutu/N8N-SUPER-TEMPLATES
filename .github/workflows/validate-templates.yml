@@ -1,0 +1,111 @@
+name: Validate Templates
+
+on:
+  pull_request:
+    paths:
+      - 'templates/**/*.json'
+      - 'README.md'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-json:
+    name: Validate JSON syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install jsonlint
+        run: npm install -g jsonlint
+
+      - name: Validate all JSON files
+        run: |
+          echo "Validating JSON files..."
+          failed=0
+          for file in $(find templates -name "*.json"); do
+            if jsonlint --quiet "$file" 2>/dev/null; then
+              echo "✅ $file"
+            else
+              echo "❌ INVALID JSON: $file"
+              jsonlint "$file" || true
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            echo "::error::One or more JSON files failed validation. See logs above."
+            exit 1
+          fi
+          echo "All JSON files are valid."
+
+  validate-metadata:
+    name: Validate template metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check metadata completeness
+        run: |
+          node scripts/validate-metadata.js
+
+  check-no-secrets:
+    name: Check for hardcoded secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan for common secret patterns
+        run: |
+          echo "Scanning for potential secrets..."
+          patterns=(
+            "sk-[a-zA-Z0-9]{20,}"
+            "AIza[0-9A-Za-z_-]{35}"
+            "ghp_[a-zA-Z0-9]{36}"
+            "Bearer [a-zA-Z0-9._-]{20,}"
+          )
+          failed=0
+          for pattern in "${patterns[@]}"; do
+            matches=$(grep -rn --include="*.json" -E "$pattern" templates/ 2>/dev/null || true)
+            if [ -n "$matches" ]; then
+              echo "::error::Potential secret found matching pattern '$pattern':"
+              echo "$matches"
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            echo "::error::Remove all real credentials before submitting."
+            exit 1
+          fi
+          echo "No secrets detected."
+
+  validate-readme:
+    name: Validate README markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint README
+        run: markdownlint README.md --config .markdownlint.json || true
