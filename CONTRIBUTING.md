@@ -21,7 +21,7 @@ This guide covers everything you need to know to get a pull request merged succe
 - [Fixing Bugs or Improving Documentation](#fixing-bugs-or-improving-documentation)
 - [Review Process](#review-process)
 - [Style Guide](#style-guide)
-- [InfoBay.ai Contributor Notes](#infobayai-contributor-notes)
+- [Attribution](#attribution)
 
 ---
 
@@ -115,8 +115,11 @@ Open the downloaded JSON and add an `infoBay` object inside the top-level `"meta
         "n8n-nodes-base.gmailTrigger",
         "n8n-nodes-base.openAi"
       ],
-      "author": "your-github-username",
-      "authorUrl": "https://github.com/your-github-username",
+      "author": "Original workflow creator",
+      "authorUrl": "https://n8n.io/workflows/1234-template-name/",
+      "curatedBy": "brianmurutu",
+      "curatorUrl": "https://github.com/brianmurutu",
+      "source": "https://n8n.io/workflows/1234-template-name/",
       "version": "1.0.0",
       "testedOn": "n8n 1.70+",
       "tags": ["email", "ai", "gmail", "openai"]
@@ -183,8 +186,9 @@ Before submitting, ensure your template meets **all** of these criteria:
 - [ ] JSON is valid and parseable
 - [ ] Workflow can be imported into n8n without errors
 - [ ] All nodes are properly connected (no dangling nodes)
-- [ ] All credential fields use placeholder values only
+- [ ] Credential IDs and secrets are removed or replaced with placeholders
 - [ ] `meta.infoBay` block is complete and accurate
+- [ ] Original creator and source listing are credited; curator credit is separate
 - [ ] File is placed in the correct `templates/<category>/` folder
 - [ ] File name follows `kebab-case-descriptive-name.json` convention
 - [ ] A corresponding row has been added to `README.md`
@@ -221,16 +225,11 @@ Before submitting, ensure your template meets **all** of these criteria:
 
 ---
 
-## InfoBay.ai Contributor Notes
+## Attribution
 
-This repository participates in the **InfoBay.ai Developer Contributor Program**. Here is what that means for contributors:
-
-- **Pull Requests are the primary activity signal.** Each merged PR represents real development activity.
-- **Quality over quantity.** One well-documented, tested template is worth more than five broken ones.
-- **Your author information matters.** Fill in `meta.infoBay.author` and `meta.infoBay.authorUrl` correctly — these fields attribute your work.
-- **Keep your PRs focused.** Prefer one template per PR to make review faster.
-
-Visit [infobay.ai/contributors](https://infobay.ai/contributors) to register your repository and learn how earning works.
+For imported workflows, preserve the original creator's name and official n8n listing in
+the metadata. Record the repository curator separately as `brianmurutu`; do not replace
+the original creator attribution.
 
 ---
 

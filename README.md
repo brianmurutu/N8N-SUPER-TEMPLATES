@@ -9,6 +9,9 @@
 > A curated, community-driven collection of production-ready **n8n workflow templates** covering AI agents, email automation, CRM, DevOps, social media, and more.  
 > **Import any template in under 60 seconds** — no coding required.
 
+Curated by [Brian Murutu](https://github.com/brianmurutu). Original workflow creators and
+official n8n template sources are credited in each imported template.
+
 ---
 
 ## 📑 Table of Contents
@@ -49,7 +52,7 @@ n8n's template marketplace is growing fast — but finding high-quality, well-do
 2. **Click** the `[JSON]` link to open the raw workflow file.
 3. In your n8n instance, go to **Workflows → Import from File / URL**.
 4. **Paste** the raw URL or upload the downloaded `.json` file.
-5. **Configure** the credentials listed in the template's metadata comment block at the top of the JSON.
+5. **Configure** the credentials listed in the template metadata at the top of the JSON.
 6. **Activate** the workflow. Done ✅
 
 > **Self-hosted n8n:** Use `File → Import` in the editor.  
@@ -82,10 +85,7 @@ Smart email routing, drafting, classification, and follow-up workflows.
 | # | Template | Description | Trigger | Nodes Required | Link |
 |---|----------|-------------|---------|----------------|------|
 | 1 | **AI Gmail Auto-Labeller** | Labels incoming Gmail messages into categories (Support, Sales, Inquiry) using OpenAI. | Gmail Trigger | Gmail, OpenAI | [JSON](templates/email-automation/ai-gmail-auto-labeller.json) |
-| 2 | **Smart Reply Drafter** | Reads an email, summarises context, and creates a polished draft reply via GPT-4. | Gmail Trigger / IMAP | Gmail/IMAP, OpenAI | [JSON](templates/email-automation/smart-reply-drafter.json) |
-| 3 | **Phishing Email Detector** | Runs incoming emails through a GPT-based classifier and flags potential phishing attempts in Slack. | Gmail Trigger | Gmail, OpenAI, Slack | [JSON](templates/email-automation/phishing-email-detector.json) |
-| 4 | **Lead Follow-Up Sequence** | Sends a series of timed follow-up emails to new leads captured from a form. | Webhook / Form | SMTP, Wait, Set | [JSON](templates/email-automation/lead-followup-sequence.json) |
-| 5 | **Outlook Auto-Categoriser** | Moves Outlook emails into folders and assigns categories based on AI-detected intent. | Microsoft Outlook Trigger | Outlook, OpenAI | [JSON](templates/email-automation/outlook-auto-categoriser.json) |
+| 2 | **Personalized Daily Newsletter** | Summarizes RSS news with Gemini and emails a personalized daily digest. | Schedule | RSS, Google Gemini, SMTP | [JSON](templates/email-automation/personalized-daily-newsletter.json) |
 
 ---
 
@@ -151,11 +151,8 @@ Pipelines, transformations, database sync, and API integrations.
 
 | # | Template | Description | Trigger | Nodes Required | Link |
 |---|----------|-------------|---------|----------------|------|
-| 1 | **Multi-Source Data Aggregator** | Pulls data from REST APIs, cleans it, deduplicates, and loads into a Postgres database. | Schedule | HTTP Request, Code, Postgres | [JSON](templates/data-processing/multi-source-data-aggregator.json) |
-| 2 | **CSV to Database ETL** | Reads a CSV from S3/Google Drive, validates rows, transforms fields, and upserts into MySQL. | Schedule / Manual | S3/Google Drive, Code, MySQL | [JSON](templates/data-processing/csv-to-database-etl.json) |
-| 3 | **Webhook Event Router** | Receives webhook payloads, validates the signature, and routes events to different downstream handlers. | Webhook | Webhook, IF, Switch, HTTP Request | [JSON](templates/data-processing/webhook-event-router.json) |
-| 4 | **API Health Monitor** | Pings a list of API endpoints every 5 minutes and alerts via PagerDuty when one goes down. | Schedule | HTTP Request, IF, PagerDuty/Slack | [JSON](templates/data-processing/api-health-monitor.json) |
-| 5 | **Google Analytics to BigQuery** | Exports GA4 reports on a schedule and loads them into a BigQuery dataset for custom analysis. | Schedule | HTTP Request (GA4), Google BigQuery | [JSON](templates/data-processing/google-analytics-bigquery.json) |
+| 1 | **QR Code Generator via Webhook** | Sends submitted text to QR Server and returns the generated image to the webhook caller. | Webhook | Webhook, HTTP Request | [JSON](templates/data-processing/qr-code-generator-webhook.json) |
+| 2 | **Daily CSV Reconciliation** | Combines Google Drive CSV exports, deduplicates rows, saves rejects, and posts a Slack recap. | Schedule | Google Drive, Code, Slack | [JSON](templates/data-processing/daily-csv-reconciliation.json) |
 
 ---
 
@@ -175,7 +172,7 @@ CI/CD hooks, GitHub automation, deployment workflows, and infrastructure monitor
 
 ## 📝 Template Metadata Standard
 
-Every `.json` template in this repository starts with a metadata comment block inside the workflow's `meta` key, following this standard:
+Every `.json` template in this repository includes metadata inside the workflow's `meta` key, following this standard:
 
 ```json
 {
@@ -189,8 +186,11 @@ Every `.json` template in this repository starts with a metadata comment block i
       "trigger": "Manual | Webhook | Schedule | App Trigger",
       "requiredCredentials": ["OpenAI API", "Gmail OAuth2"],
       "requiredNodes": ["n8n-nodes-base.openAi", "n8n-nodes-base.gmail"],
-      "author": "Your Name or GitHub username",
-      "authorUrl": "https://github.com/yourusername",
+      "author": "Original workflow creator",
+      "authorUrl": "https://n8n.io/workflows/1234-template-name/",
+      "curatedBy": "brianmurutu",
+      "curatorUrl": "https://github.com/brianmurutu",
+      "source": "https://n8n.io/workflows/1234-template-name/",
       "version": "1.0.0",
       "testedOn": "n8n 1.x",
       "tags": ["ai", "email", "automation"]

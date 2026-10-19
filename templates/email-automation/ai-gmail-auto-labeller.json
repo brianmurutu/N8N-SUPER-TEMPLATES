@@ -14,8 +14,10 @@
         "n8n-nodes-base.openAi",
         "n8n-nodes-base.gmail"
       ],
-      "author": "your-github-username",
-      "authorUrl": "https://github.com/your-github-username",
+      "author": "brianmurutu",
+      "authorUrl": "https://github.com/brianmurutu",
+      "curatedBy": "brianmurutu",
+      "curatorUrl": "https://github.com/brianmurutu",
       "version": "1.0.0",
       "testedOn": "n8n 1.70+",
       "tags": ["email", "ai", "gmail", "openai", "labelling", "ops"]

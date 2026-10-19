@@ -23,10 +23,13 @@ This is how templates are indexed, credited, and quality-checked.
         "n8n-nodes-base.openAi",
         "n8n-nodes-base.gmail"
       ],
-      "author": "your-github-username",
-      "authorUrl": "https://github.com/your-github-username",
+      "author": "Original workflow creator",
+      "authorUrl": "https://n8n.io/workflows/1234-template-name/",
+      "curatedBy": "brianmurutu",
+      "curatorUrl": "https://github.com/brianmurutu",
+      "source": "https://n8n.io/workflows/1234-template-name/",
       "version": "1.0.0",
-      "testedOn": "n8n 1.70+",
+      "testedOn": "Not independently tested; imported from the official n8n template library",
       "tags": ["tag1", "tag2", "tag3"]
     }
   }
@@ -46,10 +49,13 @@ This is how templates are indexed, credited, and quality-checked.
 | `trigger` | string | ✅ | How the workflow is triggered |
 | `requiredCredentials` | string[] | ✅ | Human-readable credential names |
 | `requiredNodes` | string[] | ✅ | n8n node type names used |
-| `author` | string | ✅ | GitHub username of template author |
-| `authorUrl` | string | ✅ | Full URL to author's GitHub profile |
+| `author` | string | ✅ | Name or handle of the original workflow creator |
+| `authorUrl` | string | ✅ | URL identifying the original creator or source listing |
+| `curatedBy` | string | ✅ | GitHub username of the repository curator |
+| `curatorUrl` | string | ✅ | GitHub profile URL of the repository curator |
+| `source` | string | For imports | Official n8n listing for imported workflows |
 | `version` | string | ✅ | Semantic version (`major.minor.patch`) |
-| `testedOn` | string | ✅ | n8n version this was tested on |
+| `testedOn` | string | ✅ | n8n version tested, or a clear note that it was not independently tested |
 | `tags` | string[] | ✅ | Keywords for search/filtering |
 
 ---
@@ -81,7 +87,6 @@ This is how templates are indexed, credited, and quality-checked.
 
 ## Why Metadata Matters
 
-- **Attribution**: Your name is permanently recorded as the creator
+- **Attribution**: Original creators and the repository curator are credited separately
 - **Discoverability**: Tags and categories make templates searchable
 - **CI validation**: The GitHub Actions pipeline enforces completeness
-- **InfoBay.ai**: Accurate metadata contributes to higher-quality data signal for the contributor program

@@ -7,10 +7,7 @@ Workflows for Gmail, Outlook, IMAP/SMTP — smart routing, AI drafting, classifi
 | # | Template | Description | Difficulty |
 |---|----------|-------------|------------|
 | 1 | [ai-gmail-auto-labeller.json](ai-gmail-auto-labeller.json) | Labels incoming Gmail messages with AI | Beginner |
-| 2 | [smart-reply-drafter.json](smart-reply-drafter.json) | Drafts email replies using GPT-4 | Beginner |
-| 3 | [phishing-email-detector.json](phishing-email-detector.json) | Flags phishing attempts and alerts Slack | Intermediate |
-| 4 | [lead-followup-sequence.json](lead-followup-sequence.json) | Timed follow-up email sequence for leads | Intermediate |
-| 5 | [outlook-auto-categoriser.json](outlook-auto-categoriser.json) | Moves Outlook emails into folders via AI | Beginner |
+| 2 | [personalized-daily-newsletter.json](personalized-daily-newsletter.json) | Summarizes RSS feeds with Gemini and emails a daily digest | Advanced |
 
 ## Common Credentials Needed
 
