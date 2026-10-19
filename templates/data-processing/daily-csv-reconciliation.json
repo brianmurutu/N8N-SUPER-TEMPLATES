@@ -41,6 +41,7 @@
   "tags": [],
   "nodes": [
     {
+      "id": "c8546d63-8a5a-4ad9-a72e-9e44514a09ed",
       "name": "Run on Schedule",
       "type": "n8n-nodes-base.scheduleTrigger",
       "position": [
@@ -60,6 +61,7 @@
       "typeVersion": 1.2
     },
     {
+      "id": "6630277a-a26e-4981-92d7-dda7246e70fe",
       "name": "List CSV Files in Folder",
       "type": "n8n-nodes-base.googleDrive",
       "maxTries": 3,
@@ -101,6 +103,7 @@
       "waitBetweenTries": 5000
     },
     {
+      "id": "d6398f6f-d3c2-48aa-bca9-6064ff75bbd8",
       "name": "Download Each CSV",
       "type": "n8n-nodes-base.googleDrive",
       "onError": "continueRegularOutput",
@@ -134,6 +137,7 @@
       "waitBetweenTries": 5000
     },
     {
+      "id": "78764672-fe21-44e6-83ed-590a3661f153",
       "name": "Parse CSV Rows",
       "type": "n8n-nodes-base.extractFromFile",
       "onError": "continueRegularOutput",
@@ -151,6 +155,7 @@
       "typeVersion": 1.1
     },
     {
+      "id": "1e289fa9-ced3-479a-a89e-80cbe4ed4f85",
       "name": "Reconcile CSVs",
       "type": "n8n-nodes-base.code",
       "position": [
@@ -165,6 +170,7 @@
       "typeVersion": 2
     },
     {
+      "id": "2a206980-7767-49ad-8fdf-f921982db988",
       "name": "Master Rows",
       "type": "n8n-nodes-base.code",
       "position": [
@@ -179,6 +185,7 @@
       "typeVersion": 2
     },
     {
+      "id": "5d6bf709-e4d9-4092-b643-865f7ba3b83e",
       "name": "Build Master CSV",
       "type": "n8n-nodes-base.convertToFile",
       "position": [
@@ -196,6 +203,7 @@
       "typeVersion": 1.1
     },
     {
+      "id": "c84e785b-5535-4307-b135-25554e0ae2da",
       "name": "Upload Master CSV",
       "type": "n8n-nodes-base.googleDrive",
       "onError": "continueRegularOutput",
@@ -233,6 +241,7 @@
       "waitBetweenTries": 5000
     },
     {
+      "id": "e2138940-da08-424b-9763-5efc8612b749",
       "name": "Reject Rows",
       "type": "n8n-nodes-base.code",
       "position": [
@@ -247,6 +256,7 @@
       "typeVersion": 2
     },
     {
+      "id": "64e86222-ff81-4dc0-a8ee-e939678753ab",
       "name": "Build Reject CSV",
       "type": "n8n-nodes-base.convertToFile",
       "position": [
@@ -264,6 +274,7 @@
       "typeVersion": 1.1
     },
     {
+      "id": "271227b4-0eb3-4fd0-9fad-a0a551711018",
       "name": "Upload Reject CSV",
       "type": "n8n-nodes-base.googleDrive",
       "onError": "continueRegularOutput",
@@ -301,6 +312,7 @@
       "waitBetweenTries": 5000
     },
     {
+      "id": "3dd2c394-cd7b-4678-bf21-9f9f9a2a65b2",
       "name": "Post Recap to Slack",
       "type": "n8n-nodes-base.slack",
       "position": [
@@ -331,6 +343,7 @@
       "typeVersion": 2.5
     },
     {
+      "id": "af5beec5-6616-4802-8e03-ad16fdff44fe",
       "name": "Sticky Overview",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -346,6 +359,7 @@
       "typeVersion": 1
     },
     {
+      "id": "4bdc0e43-4f99-4845-8201-90313873ea27",
       "name": "Sticky Read",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -361,6 +375,7 @@
       "typeVersion": 1
     },
     {
+      "id": "84833d56-564b-4ec8-9f34-f4a6bc7655ba",
       "name": "Sticky Reconcile",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -376,6 +391,7 @@
       "typeVersion": 1
     },
     {
+      "id": "ec8a390f-e338-4d38-8b56-5cb39abeb7f7",
       "name": "Sticky Master",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -391,6 +407,7 @@
       "typeVersion": 1
     },
     {
+      "id": "02fc970e-6426-45d3-99bb-a89e9f443279",
       "name": "Sticky Rejects",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -406,6 +423,7 @@
       "typeVersion": 1
     },
     {
+      "id": "a8d10e11-205a-4573-91d1-63f64f7b718c",
       "name": "Sticky Folder Safety",
       "type": "n8n-nodes-base.stickyNote",
       "position": [

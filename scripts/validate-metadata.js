@@ -2,8 +2,7 @@
 /**
  * validate-metadata.js
  * 
- * Validates that every .json file in templates/ contains a complete
- * meta.infoBay metadata block as required by the repository standard.
+ * Validates template metadata and basic n8n workflow structure.
  * 
  * Exit code 0 = all valid
  * Exit code 1 = one or more files failed
@@ -96,6 +95,68 @@ function validateFile(filePath) {
 
   if (infoBay.tags && !Array.isArray(infoBay.tags)) {
     errors.push('meta.infoBay.tags must be an array');
+  }
+
+  const nodes = parsed.nodes;
+  if (!Array.isArray(nodes) || nodes.length === 0) {
+    errors.push('Workflow must contain a non-empty nodes array');
+  }
+
+  const nodeNames = new Set();
+  const nodeIds = new Set();
+  const nodeTypes = new Set();
+  for (const node of Array.isArray(nodes) ? nodes : []) {
+    if (!node || typeof node.id !== 'string' || !node.id ||
+        typeof node.name !== 'string' || !node.name ||
+        typeof node.type !== 'string' || !node.type) {
+      errors.push('Each workflow node must have a non-empty id, name, and type');
+      continue;
+    }
+
+    if (nodeIds.has(node.id)) {
+      errors.push(`Duplicate workflow node id: ${node.id}`);
+    }
+    if (nodeNames.has(node.name)) {
+      errors.push(`Duplicate workflow node name: ${node.name}`);
+    }
+    nodeIds.add(node.id);
+    nodeNames.add(node.name);
+    nodeTypes.add(node.type);
+  }
+
+  if (!parsed.connections || typeof parsed.connections !== 'object' || Array.isArray(parsed.connections)) {
+    errors.push('Workflow must contain a connections object');
+  } else {
+    for (const [source, outputs] of Object.entries(parsed.connections)) {
+      if (!nodeNames.has(source)) {
+        errors.push(`Connection source not found: ${source}`);
+      }
+      for (const [channel, groups] of Object.entries(outputs || {})) {
+        if (!Array.isArray(groups)) {
+          errors.push(`Connection groups for ${source}.${channel} must be an array`);
+          continue;
+        }
+        for (const group of groups) {
+          if (!Array.isArray(group)) {
+            errors.push(`Connection group for ${source}.${channel} must be an array`);
+            continue;
+          }
+          for (const link of group) {
+            if (!link || !nodeNames.has(link.node)) {
+              errors.push(`Connection target not found: ${link && link.node}`);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(infoBay.requiredNodes) && Array.isArray(nodes)) {
+    for (const type of infoBay.requiredNodes) {
+      if (!nodeTypes.has(type)) {
+        errors.push(`Required node type not found in workflow: ${type}`);
+      }
+    }
   }
 
   return errors;
